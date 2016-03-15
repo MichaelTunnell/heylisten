@@ -4,8 +4,11 @@ var express = require('express');
 var app = express();
 var url = require('url');
 var http = require('http').Server(app);
+var https = require('https').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
+//var cert = fs.readFileSync('/etc/letsencrypt/live/heylisten.io/fullchain.pem');
+//var key = fs.readFileSync('/etc/letsencrypt/live/heylisten.io/privkey.pem');
 var mongoClient = require('mongodb').Mongoclient;
 var assert = require('assert');
 
@@ -430,7 +433,7 @@ function addSong(newSong, room, userId) {
                 }
             } else if(!newTitle) {
                 rooms[room].playlist.splice(playPos, 1);
-                terminalMessage("could not resolve ulr, removing sc song from playlist");
+                terminalMessage("could not resolve ulr, removing song from playlist");
                 io.to(room).emit('playlist', rooms[room].playlist);
             }
         });
@@ -650,3 +653,5 @@ io.on('connection', function(socket) {
 http.listen(8080, 'localhost', function(){
     terminalMessage('listening on *:8080');
 });
+
+https.liste
